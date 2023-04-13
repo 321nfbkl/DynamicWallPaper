@@ -2,6 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Media;
 
 namespace DynamicWallPaper
 {
@@ -50,7 +51,7 @@ namespace DynamicWallPaper
             if (openFileDialog.ShowDialog() == true)
             {
                 Width = SystemParameters.PrimaryScreenWidth; Height = SystemParameters.PrimaryScreenHeight; Left = 0; Top = 0;
-
+                
                 SystemParametersInfo(20, 1, openFileDialog.FileName, 1);
             }
             this.WindowState = WindowState.Minimized;

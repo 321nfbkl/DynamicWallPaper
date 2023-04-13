@@ -5,20 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DynamicWallPaper"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="600">
+        Title="MainWindow" Height="450" Width="600"
+        DataContext="{Binding Source={StaticResource Locator},Path=Main}">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <Image x:Name="img" Width="100" Height="100" HorizontalAlignment="Center"/>
-
+            <Border Margin="20" x:Name="imgbg"  Background="Transparent">
+            <Image x:Name="img" Source="{Binding SelectedPath}" Stretch="Uniform" HorizontalAlignment="Center"/>
+            </Border>
             <StackPanel HorizontalAlignment="Center" Grid.Row="1" Orientation="Horizontal" Margin="0 20">
-                <Button Content="选择动态壁纸"
+                <Button Content="应用壁纸"
                         Width="100"
                         Height="40"
-                        Click="ApplyPic_Click"/>
+                        Command="{Binding ApplyPicCommand}"/>      
+                <Button Content="选择壁纸"
+                        Width="100"
+                        Height="40"
+                        Margin="20 0 0 0"
+                        Command="{Binding SelectedPicCommand}"/>
+
+                <ComboBox Width="100"
+                          Height="40"
+                          Margin="20 0 0 0"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          VerticalContentAlignment="Center"
+                          HorizontalContentAlignment="Center"
+                          SelectedIndex="0"    
+                          Foreground="Black"
+                          ItemsSource="{Binding AdaptList}"
+                          SelectedItem="{Binding SelectedAdapt}"/>
             </StackPanel>
         </Grid>
     </Grid>
