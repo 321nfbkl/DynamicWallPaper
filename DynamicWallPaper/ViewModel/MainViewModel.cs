@@ -1,3 +1,5 @@
+using DynamicWallPaper.Helper;
+using DynamicWallPaper.View;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
@@ -9,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media.Media3D;
 
 namespace DynamicWallPaper.ViewModel
@@ -19,6 +22,15 @@ namespace DynamicWallPaper.ViewModel
         [DllImport("user32.dll", EntryPoint = "SystemParametersInfo")]
         public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
         #region Properties
+
+
+        private string mCurrentAudioPath=string.Empty;
+
+        private static NotifyIcon trayIcon;
+
+        private DynaicThemeWallpaper ThemeWallpaper = new DynaicThemeWallpaper();
+
+        private bool mIsPlay = true;
 
         private string mSelectedPath= "pack://application:,,,/DynamicWallPaper;component/Image/nopic.bmp";
         /// <summary>
@@ -56,6 +68,10 @@ namespace DynamicWallPaper.ViewModel
         public ICommand SelectedPicCommand { get; set; }
 
         public ICommand ApplyPicCommand { get; set; }
+
+        public ICommand ApplyDynaicPicCommand { get; set; }
+
+        public ICommand SelectedDynaicPicCommand { get; set; }
         #endregion
 
 
@@ -63,9 +79,41 @@ namespace DynamicWallPaper.ViewModel
         {
             this.SelectedPicCommand = new RelayCommand(SelectedPic);
             this.ApplyPicCommand = new RelayCommand(ApplyPic);
+            this.SelectedDynaicPicCommand = new RelayCommand(SelectedDynaicPic);
+            this.ApplyDynaicPicCommand = new RelayCommand(ApplyDynaicPic);
             this.AdaptList.Add("居中");
             this.AdaptList.Add("拉伸");
             this.AdaptList.Add("平铺");
+        }
+
+        /// <summary>
+        /// 应用动态壁纸
+        /// </summary>
+        private void ApplyDynaicPic()
+        {
+            if (mCurrentAudioPath != null)
+            {
+
+                ThemeWallpaper.ChangeSource(new Uri(mCurrentAudioPath));
+            }
+        }
+
+        /// <summary>
+        /// 选择动态壁纸
+        /// </summary>
+        private void SelectedDynaicPic()
+        {
+            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
+            openFileDialog.Filter = "视频|*.mp4;*.wmv";
+            openFileDialog.Multiselect = false;
+            if (openFileDialog.ShowDialog()==true)
+            {
+                mCurrentAudioPath = openFileDialog.FileName;
+                App.mMainView.media.Stop();
+                App.mMainView.media.Source = new Uri(mCurrentAudioPath);
+                App.mMainView.media.Play();
+                mIsPlay = true;
+            }
         }
 
         /// <summary>
@@ -74,6 +122,7 @@ namespace DynamicWallPaper.ViewModel
         private void ApplyPic()
         {
             SystemParametersInfo(20, 1, SelectedPath, 1);
+            ThemeWallpaper.Visibility = Visibility.Hidden;
         }
 
         /// <summary>

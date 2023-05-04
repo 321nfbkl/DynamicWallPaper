@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DynamicWallPaper"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="600"
+        Title="MainWindow" Height="450" Width="900"
         DataContext="{Binding Source={StaticResource Locator},Path=Main}">
     <Grid>
         <Grid>
@@ -13,23 +13,16 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
             <Border Margin="20" x:Name="imgbg"  Background="Transparent">
             <Image x:Name="img" Source="{Binding SelectedPath}" Stretch="Uniform" HorizontalAlignment="Center"/>
             </Border>
             <StackPanel HorizontalAlignment="Center" Grid.Row="1" Orientation="Horizontal" Margin="0 20">
-                <Button Content="应用壁纸"
-                        Width="100"
-                        Height="40"
-                        Command="{Binding ApplyPicCommand}"/>      
-                <Button Content="选择壁纸"
-                        Width="100"
-                        Height="40"
-                        Margin="20 0 0 0"
-                        Command="{Binding SelectedPicCommand}"/>
-
                 <ComboBox Width="100"
                           Height="40"
-                          Margin="20 0 0 0"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
                           VerticalContentAlignment="Center"
@@ -38,6 +31,56 @@
                           Foreground="Black"
                           ItemsSource="{Binding AdaptList}"
                           SelectedItem="{Binding SelectedAdapt}"/>
+                
+                <Button Content="选择壁纸"
+                        Width="100"
+                        Margin="20 0 0 0"
+                        Height="40"
+                        Command="{Binding SelectedPicCommand}"/>
+
+                <Button Content="应用壁纸"
+                        Margin="20 0 0 0"
+                        Width="100"
+                        Height="40"
+                        Command="{Binding ApplyPicCommand}"/>      
+                
+            </StackPanel>
+            <Border BorderBrush="#CC119EDA" 
+                    BorderThickness="1"
+                    HorizontalAlignment="Left" 
+                    Height="272" 
+                    Grid.Column="1"
+                    Margin="20"
+                    VerticalAlignment="Top" 
+                    Width="480" 
+                    Background="Black" 
+                    MouseDown="Border_MouseDown">
+                <MediaElement x:Name="media" Margin="0" Width="480" Height="272" LoadedBehavior="Manual" Volume="1" Source="" MouseDown="media_MouseDown" />
+            </Border>
+            <StackPanel HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="0 20">
+                <ComboBox Width="100"
+                          Height="40"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          VerticalContentAlignment="Center"
+                          HorizontalContentAlignment="Center"
+                          SelectedIndex="0"    
+                          Foreground="Black"
+                          ItemsSource="{Binding AdaptList}"
+                          SelectedItem="{Binding SelectedAdapt}"/>
+
+                <Button Content="选择动态壁纸"
+                        Width="100"
+                        Margin="20 0 0 0"
+                        Height="40"
+                        Command="{Binding SelectedDynaicPicCommand}"/>
+
+                <Button Content="应用壁纸"
+                        Margin="20 0 0 0"
+                        Width="100"
+                        Height="40"
+                        Command="{Binding ApplyDynaicPicCommand}"/>
+
             </StackPanel>
         </Grid>
     </Grid>

@@ -57,6 +57,14 @@ namespace DynamicWallPaper
             this.WindowState = WindowState.Minimized;
         }
 
-      
+        private void Border_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void media_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            media.Pause();
+        }
     }
 }
